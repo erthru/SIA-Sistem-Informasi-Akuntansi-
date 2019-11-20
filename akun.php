@@ -1,29 +1,29 @@
 <?php
-    include "lib/config.php";
-        if (!isset($_SESSION)) {
-  session_start();
+include "lib/config.php";
+if (!isset($_SESSION)) {
+    session_start();
 }
 
 // ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
-  $_SESSION['MM_Username'] = NULL;
-  $_SESSION['MM_UserGroup'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['MM_Username']);
-  unset($_SESSION['MM_UserGroup']);
-  unset($_SESSION['PrevUrl']);
-    
-  $logoutGoTo = "../index.php";
-  if ($logoutGoTo) {
-    header("Location: $logoutGoTo");
-    exit;
-  }
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+    //to fully log out a visitor we need to clear the session varialbles
+    $_SESSION['MM_Username'] = NULL;
+    $_SESSION['MM_UserGroup'] = NULL;
+    $_SESSION['PrevUrl'] = NULL;
+    unset($_SESSION['MM_Username']);
+    unset($_SESSION['MM_UserGroup']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "../index.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -78,8 +78,8 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-              
-                
+
+
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -129,7 +129,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Akun <small>Sistem Informasi Akutansi</small>
@@ -137,104 +137,108 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                     </div>
                 </div>
                 <div class="row">
-    <div class="col-md-3">
-     <ol class="breadcrumb">
-    <div></div>
-        <b>TAMBAH AKUN</b><br>
-        <form method="POST" action="pro_tambah_akun.php">
-        Nomor/Kode Akun :
-        <input type="text" name="kode" required="required" class="form-control">
-        Nama Akun :<br>
-        <input type="text" name="nama_akun" required="required" class="form-control">
-        Posisi Awal Saldo :<br>
-        <select name="kategori" class="form-control">
-            <option value="HL">Debet</option>
-            <option value="HT">Kredit</option>
-        </select><br>
-        <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
-        </form>
-        </ol>
-    </div>
-    
-    <div class="col-md-8">
-    <ol class="breadcrumb">
-    <div></div>
-                    <b>DAFTAR AKUN</b><br>
-                     <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                             <thead>
-    
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Akun</th>
-                            <th>Kode Akun</th>
-                            <th>Posisi Saldo</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <?php
-                            $akun=mysqli_query($config->koneksi(), "SELECT * from tb_akun");
-                            $no=1;
-                            while($data_akun=mysqli_fetch_array($akun)){
-                                switch($data_akun['kategori']){
-                                    case"":
-                                        $kat="-";
-                                    break;
-                                    case"HL":
-                                        $kat="Harta Lancar";
-                                        $pos="Debet";
-                                        
-                                    break;
-                                    case"HT":
-                                        $kat="Harta Tetap";
-                                        $pos="Kredit";
-                                    break;
-                                }
-                                
-                                echo"
+                    <div class="col-md-3">
+                        <ol class="breadcrumb">
+                            <div></div>
+                            <b>TAMBAH AKUN</b><br>
+                            <form method="POST" action="pro_tambah_akun.php">
+                                Nomor/Kode Akun :
+                                <input type="text" name="kode" required="required" class="form-control">
+                                Nama Akun :<br>
+                                <input type="text" name="nama_akun" required="required" class="form-control">
+                                Posisi Awal Saldo :<br>
+                                <select name="kategori" class="form-control">
+                                    <option value="HL">Debet</option>
+                                    <option value="HT">Kredit</option>
+                                </select><br>
+                                <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
+                            </form>
+                        </ol>
+                    </div>
+
+                    <div class="col-md-8">
+                        <ol class="breadcrumb">
+                            <div></div>
+                            <b>DAFTAR AKUN</b><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Akun</th>
+                                            <th>Kode Akun</th>
+                                            <th>Posisi Saldo</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <?php
+                                    $akun = mysqli_query($config->koneksi(), "SELECT * from tb_akun");
+                                    $no = 1;
+                                    while ($data_akun = mysqli_fetch_array($akun)) {
+                                        switch ($data_akun['kategori']) {
+                                            case "":
+                                                $kat = "-";
+                                                break;
+                                            case "HL":
+                                                $kat = "Harta Lancar";
+                                                $pos = "Debet";
+
+                                                break;
+                                            case "HT":
+                                                $kat = "Harta Tetap";
+                                                $pos = "Kredit";
+                                                break;
+                                        }
+
+                                        echo "
                                     <tr>
                                         <td align='center'>$no</td>
                                         <td>               $data_akun[nama_akun]</td>
                                         <td align='center'>$data_akun[kode]</td>
                                         <td align='center'>$pos</td>
-                                        <td align='center'><a href='editakun.php?id=".$data_akun['id']."'>Edit</a>
-                                        <a href='hapus_akun.php?id=".$data_akun['id']."'>Hapus</a></td>
+                                        <td align='center'><a href='editakun.php?id=" . $data_akun['id'] . "'>Edit</a>
+                                        <a href='hapus_akun.php?id=" . $data_akun['id'] . "'>Hapus</a></td>
 
                                     </tr>
                                 ";
-                            $no++;
-                            }
-                        ?>
-                    </table>
+                                        $no++;
+                                    }
+                                    ?>
+                                </table>
 
-    <div>
-    </ol>
-</div>
+                                <div>
+                        </ol>
+                    </div>
 
-<!-- Modal Popup untuk Edit--> 
-<div id="ModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <!-- Modal Popup untuk Edit-->
+                    <div id="ModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-</div>
-<script type="text/javascript">
-   $(document).ready(function () {
-   $(".open_modal").click(function(e) {
-      var m = $(this).attr("id");
-       $.ajax({
-             url: "editakun.php",
-             type: "GET",
-             data : {id: m,},
-             success: function (ajaxData){
-               $("#ModalEdit").html(ajaxData);
-               $("#ModalEdit").modal('show',{backdrop: 'true'});
-             }
-           });
-        });
-      });
-</script>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $(".open_modal").click(function(e) {
+                                var m = $(this).attr("id");
+                                $.ajax({
+                                    url: "editakun.php",
+                                    type: "GET",
+                                    data: {
+                                        id: m,
+                                    },
+                                    success: function(ajaxData) {
+                                        $("#ModalEdit").html(ajaxData);
+                                        $("#ModalEdit").modal('show', {
+                                            backdrop: 'true'
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    </script>
 
-                <!-- /.row -->
+                    <!-- /.row -->
 
-               <!-- <div class="row">
+                    <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -244,7 +248,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-             <!--   <div class="row">
+                    <!--   <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -334,9 +338,9 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                    <!-- /.row -->
 
-                <!--<div class="row">
+                    <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -350,7 +354,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-                <!--<div class="row">
+                    <!--<div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -410,7 +414,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                             </div>
                         </div>
                     </div>-->
-                   <!-- <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -485,27 +489,27 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                    <!-- /.row -->
+
+                </div>
+                <!-- /.container-fluid -->
 
             </div>
-            <!-- /.container-fluid -->
+            <!-- /#page-wrapper -->
 
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /#wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
+        <!-- Morris Charts JavaScript -->
+        <script src="js/plugins/morris/raphael.min.js"></script>
+        <script src="js/plugins/morris/morris.min.js"></script>
+        <script src="js/plugins/morris/morris-data.js"></script>
 
 </body>
 

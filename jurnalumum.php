@@ -1,30 +1,30 @@
 <?php
-    date_default_timezone_set('Asia/Jakarta');
-    include "lib/config.php";
-        if (!isset($_SESSION)) {
-  session_start();
+date_default_timezone_set('Asia/Jakarta');
+include "lib/config.php";
+if (!isset($_SESSION)) {
+    session_start();
 }
 
 // ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
-  $_SESSION['MM_Username'] = NULL;
-  $_SESSION['MM_UserGroup'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['MM_Username']);
-  unset($_SESSION['MM_UserGroup']);
-  unset($_SESSION['PrevUrl']);
-    
-  $logoutGoTo = "../index.php";
-  if ($logoutGoTo) {
-    header("Location: $logoutGoTo");
-    exit;
-  }
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+    //to fully log out a visitor we need to clear the session varialbles
+    $_SESSION['MM_Username'] = NULL;
+    $_SESSION['MM_UserGroup'] = NULL;
+    $_SESSION['PrevUrl'] = NULL;
+    unset($_SESSION['MM_Username']);
+    unset($_SESSION['MM_UserGroup']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "../index.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -79,8 +79,8 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-               
-                
+
+
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -130,7 +130,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Jurnal Umum <small>Sistem Informasi Akutansi</small>
@@ -138,80 +138,80 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                     </div>
                 </div>
                 <div class="row">
-    <div class="col-md-3">
-    <ol class="breadcrumb">
-    <div></div>
-                        <b>INPUT TRANSAKSI : </b><br>
-                        <form method="POST" action="pro_input_transaksi.php">
-                        Tanggal transaksi : <br>
-                        <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input class="form-control" size="10" type="text" name="tgl"  id="tgl_transaksi">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                        Akun :
-                        <select name="id_akun" class="form-control">
-                            <?php
-                                error_reporting(0);
-                                $data=mysqil_query($config->koneksi(), "SELECT * from tb_akun");
-                                $j=mysqli_num_rows($data);
-                                if($j==0){
-                                    echo"<option>--Pilih Akun--</option>";
-                                }else{
-                                    while($v=mysqli_fetch_array($data)){
-                                    echo"
+                    <div class="col-md-3">
+                        <ol class="breadcrumb">
+                            <div></div>
+                            <b>INPUT TRANSAKSI : </b><br>
+                            <form method="POST" action="pro_input_transaksi.php">
+                                Tanggal transaksi : <br>
+                                <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                Akun :
+                                <select name="id_akun" class="form-control">
+                                    <?php
+                                    error_reporting(0);
+                                    $data = mysqil_query($config->koneksi(), "SELECT * from tb_akun");
+                                    $j = mysqli_num_rows($data);
+                                    if ($j == 0) {
+                                        echo "<option>--Pilih Akun--</option>";
+                                    } else {
+                                        while ($v = mysqli_fetch_array($data)) {
+                                            echo "
                                         <option value='$v[id]'>$v[nama_akun]</option>
                                     ";
+                                        }
                                     }
-                                }
 
-                            ?>
-                        </select>
-                        
-                        Nominal : Rp.
-                        <input type="text" name="nominal" class="form-control">
-                        
-                        Keterangan :
-                        <textarea name="ket" class="form-control"></textarea>
-                        
-                        Tipe :
-                        <select name="tipe" class="form-control">
-                            <option value="D">Debet</option>
-                            <option value="K">Kredit</option>
-                        </select><br>
-                        
-                        <input type="submit" name="simpan" value="Simpan Transaksi" class="btn btn-primary">
-                    </form>
-                    </ol>
-    </div>
-    
-    <div class="col-md-9">
-    <ol class="breadcrumb">
-    <div></div>
-            <b>JURNAL UMUM</b><br>
-                  <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                             <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tgl Trans</th>
-                                        <th>Akun</th>
-                                        <th>Debet</th>
-                                        <th>Kredit</th>
-                                        <th>Action</th>
-                                    </tr>
-                           </thead>
-                           </ol>
-                        </div>
-                        
-                        <?php
-                            $by_tgl=mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal', tb_akun.id 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tgl order by tb_jurnal.tgl ASC");
-                            $no=1;
-                            $total_debet    =   0;
-                            $total_kredit   =   0;
-                            $all_debet      =   0;
-                            $all_kredit     =   0;
-                            while($data=mysqli_fetch_array($by_tgl)){
-                                echo"
+                                    ?>
+                                </select>
+
+                                Nominal : Rp.
+                                <input type="text" name="nominal" class="form-control">
+
+                                Keterangan :
+                                <textarea name="ket" class="form-control"></textarea>
+
+                                Tipe :
+                                <select name="tipe" class="form-control">
+                                    <option value="D">Debet</option>
+                                    <option value="K">Kredit</option>
+                                </select><br>
+
+                                <input type="submit" name="simpan" value="Simpan Transaksi" class="btn btn-primary">
+                            </form>
+                        </ol>
+                    </div>
+
+                    <div class="col-md-9">
+                        <ol class="breadcrumb">
+                            <div></div>
+                            <b>JURNAL UMUM</b><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Tgl Trans</th>
+                                            <th>Akun</th>
+                                            <th>Debet</th>
+                                            <th>Kredit</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                        </ol>
+                    </div>
+
+                    <?php
+                    $by_tgl = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal', tb_akun.id 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tgl order by tb_jurnal.tgl ASC");
+                    $no = 1;
+                    $total_debet    =   0;
+                    $total_kredit   =   0;
+                    $all_debet      =   0;
+                    $all_kredit     =   0;
+                    while ($data = mysqli_fetch_array($by_tgl)) {
+                        echo "
                                 <tr>
                                     <td align='center'>$no</td>
                                     <td>$data[tgl]</td>
@@ -219,46 +219,43 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                                     <td></td>
                                     <td></td>
                                 </tr>";
-                                
-                            $transaksi=mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.tgl='$data[tgl]' order by tb_jurnal.id ASC");
-                            $total_debet    =   0;
-                            $total_kredit   =   0;
-                            while($v=mysqli_fetch_array($transaksi)){
-                                
-                                switch($v['tipe']){
-                                    case"D":
-                                        $akun               =   "<p>$v[nama_akun]</p>";
-                                        $kolom_debet    =   $v['nominal'];
-                                        $kolom_kredit   =   "0";
-                                        $total_debet        +=  $kolom_debet;
-                                        
-                                    break;
-                                    
-                                    case"K":
-                                        $akun               =   "<p style='margin-left:10px;'>$v[nama_akun]</p>";
-                                        $kolom_kredit   =   $v['nominal'];
-                                        $kolom_debet    =   "0";
-                                        $total_kredit       +=  $kolom_kredit;
+
+                        $transaksi = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.tgl='$data[tgl]' order by tb_jurnal.id ASC");
+                        $total_debet    =   0;
+                        $total_kredit   =   0;
+                        while ($v = mysqli_fetch_array($transaksi)) {
+
+                            switch ($v['tipe']) {
+                                case "D":
+                                    $akun               =   "<p>$v[nama_akun]</p>";
+                                    $kolom_debet    =   $v['nominal'];
+                                    $kolom_kredit   =   "0";
+                                    $total_debet        +=  $kolom_debet;
 
                                     break;
-                                }
-                                
-                                echo"
+
+                                case "K":
+                                    $akun               =   "<p style='margin-left:10px;'>$v[nama_akun]</p>";
+                                    $kolom_kredit   =   $v['nominal'];
+                                    $kolom_debet    =   "0";
+                                    $total_kredit       +=  $kolom_kredit;
+
+                                    break;
+                            }
+
+                            echo "
                                     <tr>
                                         <td align='center'></td>
                                         <td></td>
                                         <td>$akun</td>
-                                        <td align='center'><p align='right'>Rp. ".number_format($kolom_debet,0,",",".")."</p></td>
-                                        <td align='center'><p align='right'>Rp. ".number_format($kolom_kredit,0,",",".")."</p></td>
-                                        <td align='center'><a href='editjurnal.php?id=".$v['idjurnal']."'>edit</a> 
-                                        <a href='hapus_transaksi.php?id=".$v['idjurnal']."'>Hapus</a>  </td>
+                                        <td align='center'><p align='right'>Rp. " . number_format($kolom_debet, 0, ",", ".") . "</p></td>
+                                        <td align='center'><p align='right'>Rp. " . number_format($kolom_kredit, 0, ",", ".") . "</p></td>
+                                        <td align='center'><a href='editjurnal.php?id=" . $v['idjurnal'] . "'>edit</a> 
+                                        <a href='hapus_transaksi.php?id=" . $v['idjurnal'] . "'>Hapus</a>  </td>
                                     </tr>
                                 ";
-                                
-
-                            
-                            }
-                            /*echo"
+                        }
+                        /*echo"
                                                                 
                                     <tr>
                                         <td colspan='3' align='center'  style='padding:10px;'>JUMLAH</td>
@@ -266,26 +263,25 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                                         <td align='right'>Rp. ".number_format($total_kredit,0,",",".")."</td>
                                     </tr>
                             ";*/
-                                $no++;
-                                $all_debet  +=  $total_debet;
-                                $all_kredit +=  $total_kredit;
-                                                            
-                            }
+                        $no++;
+                        $all_debet  +=  $total_debet;
+                        $all_kredit +=  $total_kredit;
+                    }
 
-                            echo"
+                    echo "
                                     <tr>
                                         <td colspan='3' align='center' style='padding:20px;'><b>TOTAL</b></td>
-                                        <td align='center'><b>Rp. ".number_format($all_debet,0,",",".")."</b></td>
-                                        <td align='center'><b>Rp. ".number_format($all_kredit,0,",",".")."</b></td>
+                                        <td align='center'><b>Rp. " . number_format($all_debet, 0, ",", ".") . "</b></td>
+                                        <td align='center'><b>Rp. " . number_format($all_kredit, 0, ",", ".") . "</b></td>
                                     </tr>
                             ";
-                        ?>
-                    </table>
-    </div>
-</div>
-                <!-- /.row -->
+                    ?>
+                        </table>
+                </div>
+            </div>
+            <!-- /.row -->
 
-               <!-- <div class="row">
+            <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -295,7 +291,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-             <!--   <div class="row">
+            <!--   <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -385,9 +381,9 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+            <!-- /.row -->
 
-                <!--<div class="row">
+            <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -401,7 +397,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-                <!--<div class="row">
+            <!--<div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -461,7 +457,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                             </div>
                         </div>
                     </div>-->
-                   <!-- <div class="col-lg-4">
+            <!-- <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -536,13 +532,13 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
-
-            </div>
-            <!-- /.container-fluid -->
+            <!-- /.row -->
 
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /#page-wrapper -->
 
     </div>
     <!-- /#wrapper -->

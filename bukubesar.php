@@ -1,29 +1,29 @@
 <?php
-    include "lib/config.php";
-    if (!isset($_SESSION)) {
-  session_start();
+include "lib/config.php";
+if (!isset($_SESSION)) {
+    session_start();
 }
 
 // ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
-  $_SESSION['MM_Username'] = NULL;
-  $_SESSION['MM_UserGroup'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['MM_Username']);
-  unset($_SESSION['MM_UserGroup']);
-  unset($_SESSION['PrevUrl']);
-    
-  $logoutGoTo = "../index.php";
-  if ($logoutGoTo) {
-    header("Location: $logoutGoTo");
-    exit;
-  }
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+    //to fully log out a visitor we need to clear the session varialbles
+    $_SESSION['MM_Username'] = NULL;
+    $_SESSION['MM_UserGroup'] = NULL;
+    $_SESSION['PrevUrl'] = NULL;
+    unset($_SESSION['MM_Username']);
+    unset($_SESSION['MM_UserGroup']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "../index.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -78,8 +78,8 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-               
-                
+
+
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -129,69 +129,68 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Buku Besar <small>Sistem Informasi Akutansi</small>
                         </h1>
                     </div>
                 </div>
-                 <ol class="breadcrumb">
-                            
-                            <div></div>
-<i>- Total saldo debet didapatkan dari total debet dikurangi total kredit (Saldo Debet = Total Debet - Total Kredit)</i><br>
-<i>- Total saldo kredit didapatkan dari total kredit dikurangi total debet (Saldo Kredit = Total Kredit - Total Debet)</i><br><br>
-</ol>
-<div class="row">
-    <div class="col-md-3">
-    <ol class="breadcrumb">
-                            
-                            <div></div>
-        <b>AKUN :</b><br>
-                             
-                    <?php
-                $data=mysqli_query($config->koneksi(), "SELECT *,count(tb_jurnal.id_akun) 'jumlah_akun', tb_akun.id 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tb_jurnal.id_akun");
-                $no=1;
-                while($v=mysqli_fetch_array($data)){
-                echo "$no. <a href='#' id='id_akun' onclick='detail_akun($v[idakun])'>$v[nama_akun] </a>($v[jumlah_akun])<br>";
-                $no++;
-                }
-            ?>
-            </ol>
-    </div>
-   
-    
-    <div class="col-md-9">
-     <ol class="breadcrumb">
-                            
-                            <div></div>
-        <b>DETAIL AKUN :</b><br>
-        <div  id="detail_akun"></div>
-        </ol>
-    </div>
-</div>
+                <ol class="breadcrumb">
 
-<script>
-    
-    function detail_akun(idakun){
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function(){
-            if(xhttp.readyState==1 || xhttp.readyState==2 || xhttp.readyState==3){
-                document.getElementById("detail_akun").innerHTML="Memuat data...";
-            }
-            
-            if(xhttp.readyState==4){
-                document.getElementById("detail_akun").innerHTML=xhttp.responseText;
-            }
-            
-        };
-        xhttp.open("GET", "assets/ajax-konten/detail_akun_tes.php?idakun="+idakun, true);
-        xhttp.send();
-    }
-</script>
+                    <div></div>
+                    <i>- Total saldo debet didapatkan dari total debet dikurangi total kredit (Saldo Debet = Total Debet - Total Kredit)</i><br>
+                    <i>- Total saldo kredit didapatkan dari total kredit dikurangi total debet (Saldo Kredit = Total Kredit - Total Debet)</i><br><br>
+                </ol>
+                <div class="row">
+                    <div class="col-md-3">
+                        <ol class="breadcrumb">
+
+                            <div></div>
+                            <b>AKUN :</b><br>
+
+                            <?php
+                            $data = mysqli_query($config->koneksi(), "SELECT *,count(tb_jurnal.id_akun) 'jumlah_akun', tb_akun.id 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tb_jurnal.id_akun");
+                            $no = 1;
+                            while ($v = mysqli_fetch_array($data)) {
+                                echo "$no. <a href='#' id='id_akun' onclick='detail_akun($v[idakun])'>$v[nama_akun] </a>($v[jumlah_akun])<br>";
+                                $no++;
+                            }
+                            ?>
+                        </ol>
+                    </div>
+
+
+                    <div class="col-md-9">
+                        <ol class="breadcrumb">
+
+                            <div></div>
+                            <b>DETAIL AKUN :</b><br>
+                            <div id="detail_akun"></div>
+                        </ol>
+                    </div>
+                </div>
+
+                <script>
+                    function detail_akun(idakun) {
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (xhttp.readyState == 1 || xhttp.readyState == 2 || xhttp.readyState == 3) {
+                                document.getElementById("detail_akun").innerHTML = "Memuat data...";
+                            }
+
+                            if (xhttp.readyState == 4) {
+                                document.getElementById("detail_akun").innerHTML = xhttp.responseText;
+                            }
+
+                        };
+                        xhttp.open("GET", "assets/ajax-konten/detail_akun_tes.php?idakun=" + idakun, true);
+                        xhttp.send();
+                    }
+                </script>
                 <!-- /.row -->
 
-               <!-- <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -201,7 +200,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-             <!--   <div class="row">
+                <!--   <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -367,7 +366,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                             </div>
                         </div>
                     </div>-->
-                   <!-- <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>

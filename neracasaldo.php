@@ -1,30 +1,30 @@
 <?php
- include "lib/config.php";
- date_default_timezone_set('Asia/Jakarta');
-     if (!isset($_SESSION)) {
-  session_start();
+include "lib/config.php";
+date_default_timezone_set('Asia/Jakarta');
+if (!isset($_SESSION)) {
+    session_start();
 }
 
 // ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
-  $_SESSION['MM_Username'] = NULL;
-  $_SESSION['MM_UserGroup'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['MM_Username']);
-  unset($_SESSION['MM_UserGroup']);
-  unset($_SESSION['PrevUrl']);
-    
-  $logoutGoTo = "../index.php";
-  if ($logoutGoTo) {
-    header("Location: $logoutGoTo");
-    exit;
-  }
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+    //to fully log out a visitor we need to clear the session varialbles
+    $_SESSION['MM_Username'] = NULL;
+    $_SESSION['MM_UserGroup'] = NULL;
+    $_SESSION['PrevUrl'] = NULL;
+    unset($_SESSION['MM_Username']);
+    unset($_SESSION['MM_UserGroup']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "../index.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -79,9 +79,9 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                
-               
-                
+
+
+
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -131,102 +131,99 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Neraca Saldo <small>Sistem Informasi Akutansi</small>
                         </h1>
                     </div>
                 </div>
-                 <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                             <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode Akun</th>
-                                        <th>Nama AKun</th>
-                                        <th>Debet</th>
-                                        <th>Kredit</th>
-                                    </tr>
-                           </thead>
-                        </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Akun</th>
+                                <th>Nama AKun</th>
+                                <th>Debet</th>
+                                <th>Kredit</th>
+                            </tr>
+                        </thead>
+                </div>
 
-               
-   
-        
-        <?php
-        error_reporting(0);
-        $data=mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id_akun 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tb_jurnal.id_akun");
-        $no=1;
-        $ts_debet="0";
-        $ts_kredit="0";
-        while($d=mysqli_fetch_array($data)){
-            $total_debet="";
-            $total_kredit="";
-            $saldo_debet="0";
-            $saldo_kredit="0";
 
-            $neraca=mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id_akun 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.id_akun='$d[idakun]' ");
 
-            while($n=mysqli_fetch_array($neraca)){
-                switch($n['tipe']){
-                    case"D":
-                        $debet=$n['nominal'];
-                        $kredit="";
-                        
-                    break;
-                    case"K":
-                        $kredit=$n['nominal'];
-                        $debet="";
-                    break;
-                }
-                $total_debet += $debet;
-                $total_kredit += $kredit;
-                
-                switch($n['kategori']){
-                    case"HL":
-                        $saldo_debet=$total_debet-$total_kredit;
-                        $posisi="Debet";
-                    break;
-                    
-                    case"HT":
-                        $saldo_kredit=$total_kredit-$total_debet;
-                        $posisi="Kredit";       
-                    break;
-                }
-                
-                
 
-            }
-            
-        $ts_kredit += $saldo_kredit;
-        $ts_debet += $saldo_debet;
-        echo"
+                <?php
+                error_reporting(0);
+                $data = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id_akun 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id group by tb_jurnal.id_akun");
+                $no = 1;
+                $ts_debet = "0";
+                $ts_kredit = "0";
+                while ($d = mysqli_fetch_array($data)) {
+                    $total_debet = "";
+                    $total_kredit = "";
+                    $saldo_debet = "0";
+                    $saldo_kredit = "0";
+
+                    $neraca = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id_akun 'idakun' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.id_akun='$d[idakun]' ");
+
+                    while ($n = mysqli_fetch_array($neraca)) {
+                        switch ($n['tipe']) {
+                            case "D":
+                                $debet = $n['nominal'];
+                                $kredit = "";
+
+                                break;
+                            case "K":
+                                $kredit = $n['nominal'];
+                                $debet = "";
+                                break;
+                        }
+                        $total_debet += $debet;
+                        $total_kredit += $kredit;
+
+                        switch ($n['kategori']) {
+                            case "HL":
+                                $saldo_debet = $total_debet - $total_kredit;
+                                $posisi = "Debet";
+                                break;
+
+                            case "HT":
+                                $saldo_kredit = $total_kredit - $total_debet;
+                                $posisi = "Kredit";
+                                break;
+                        }
+                    }
+
+                    $ts_kredit += $saldo_kredit;
+                    $ts_debet += $saldo_debet;
+                    echo "
             <tr>
                 <td align='center'>$no</td>
                 <td align='center'>$d[kode]</td>
                 <td style='padding-left:10px;'>$d[nama_akun]</td>
-                <td align='right'>Rp. ".number_format($saldo_debet,0,",",".")."</td>
-                <td align='right'>Rp. ".number_format($saldo_kredit,0,",",".")."</td>
+                <td align='right'>Rp. " . number_format($saldo_debet, 0, ",", ".") . "</td>
+                <td align='right'>Rp. " . number_format($saldo_kredit, 0, ",", ".") . "</td>
             </tr>
         ";
-        $no++;
-        }
+                    $no++;
+                }
 
-    ?>
-        <tr>
-            <td colspan='3' align='center'><b>Total</b></td>
-            <td align='center'>Rp. <?php echo number_format($ts_debet,0,",",".");?></td>
-            <td align='center'>Rp. <?php echo number_format($ts_kredit,0,",",".");?></td>
-        </tr>
-    <table>
-    
-
+                ?>
+                        <tr>
+                            <td colspan='3' align='center'><b>Total</b></td>
+                            <td align='center'>Rp. <?php echo number_format($ts_debet, 0, ",", "."); ?></td>
+                            <td align='center'>Rp. <?php echo number_format($ts_kredit, 0, ",", "."); ?></td>
+                        </tr>
+                        <table>
 
 
-                <!-- /.row -->
 
-               <!-- <div class="row">
+
+                            <!-- /.row -->
+
+                            <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -236,7 +233,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-             <!--   <div class="row">
+                            <!--   <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -326,9 +323,9 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                            <!-- /.row -->
 
-                <!--<div class="row">
+                            <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -342,7 +339,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-                <!--<div class="row">
+                            <!--<div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -402,7 +399,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                             </div>
                         </div>
                     </div>-->
-                   <!-- <div class="col-lg-4">
+                            <!-- <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -477,7 +474,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                            <!-- /.row -->
 
             </div>
             <!-- /.container-fluid -->

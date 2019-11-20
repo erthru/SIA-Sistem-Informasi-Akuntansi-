@@ -1,29 +1,29 @@
 <?php
-    include "lib/config.php";
-        if (!isset($_SESSION)) {
-  session_start();
+include "lib/config.php";
+if (!isset($_SESSION)) {
+    session_start();
 }
 
 // ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
+$logoutAction = $_SERVER['PHP_SELF'] . "?doLogout=true";
+if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")) {
+    $logoutAction .= "&" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
-  //to fully log out a visitor we need to clear the session varialbles
-  $_SESSION['MM_Username'] = NULL;
-  $_SESSION['MM_UserGroup'] = NULL;
-  $_SESSION['PrevUrl'] = NULL;
-  unset($_SESSION['MM_Username']);
-  unset($_SESSION['MM_UserGroup']);
-  unset($_SESSION['PrevUrl']);
-    
-  $logoutGoTo = "../index.php";
-  if ($logoutGoTo) {
-    header("Location: $logoutGoTo");
-    exit;
-  }
+if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
+    //to fully log out a visitor we need to clear the session varialbles
+    $_SESSION['MM_Username'] = NULL;
+    $_SESSION['MM_UserGroup'] = NULL;
+    $_SESSION['PrevUrl'] = NULL;
+    unset($_SESSION['MM_Username']);
+    unset($_SESSION['MM_UserGroup']);
+    unset($_SESSION['PrevUrl']);
+
+    $logoutGoTo = "../index.php";
+    if ($logoutGoTo) {
+        header("Location: $logoutGoTo");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -78,8 +78,8 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-              
-                
+
+
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -129,87 +129,91 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                           Edit Akun <small>Sistem Informasi Akutansi</small>
+                            Edit Akun <small>Sistem Informasi Akutansi</small>
                         </h1>
                     </div>
                 </div>
                 <div class="row">
-    <div class="col-md-3">
-     <ol class="breadcrumb">
-    <div></div>
-  <br />
-                        <?php
-    include('confiq/koneksi.php');
-
-    $id = $_GET['id'];
-    $show = mysqli_query($config->koneksi(), "SELECT * FROM tb_jurnal WHERE id='$id'");
-
-    if(mysqli_num_rows($show) == 0){
-
-    echo '<script>window.history.back()</script>';
-    }else{
-        $data_akun = mysqli_fetch_assoc($show);
-    }
-    ?>
-
-        <b>INPUT TRANSAKSI : </b><br>
-                        <form method="POST" action="prosesjurnal.php">
-                        <input type="hidden" name="id" value="<?php echo $id; ?>">
-                        Tanggal transaksi : <br>
-                        <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input class="form-control" size="10" type="text" name="tgl"  id="tgl_transaksi" value="<?php echo $data_akun['tgl']; ?>">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                        Akun :
-                        <select name="id_akun" value="<?php echo $data_akun['id_akun']; ?>"class="form-control">
+                    <div class="col-md-3">
+                        <ol class="breadcrumb">
+                            <div></div>
+                            <br />
                             <?php
-                                error_reporting(0);
-                                $data=mysql_query("SELECT * from tb_akun");
-                                $j=mysql_num_rows($data);
-                                if($j==0){
-                                    echo"<option>--Pilih Akun--</option>";
-                                }else{
-                                    while($v=mysql_fetch_array($data)){
-                                    echo"
+                            include('confiq/koneksi.php');
+
+                            $id = $_GET['id'];
+                            $show = mysqli_query($config->koneksi(), "SELECT * FROM tb_jurnal WHERE id='$id'");
+
+                            if (mysqli_num_rows($show) == 0) {
+
+                                echo '<script>window.history.back()</script>';
+                            } else {
+                                $data_akun = mysqli_fetch_assoc($show);
+                            }
+                            ?>
+
+                            <b>INPUT TRANSAKSI : </b><br>
+                            <form method="POST" action="prosesjurnal.php">
+                                <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                Tanggal transaksi : <br>
+                                <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi" value="<?php echo $data_akun['tgl']; ?>">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                Akun :
+                                <select name="id_akun" value="<?php echo $data_akun['id_akun']; ?>" class="form-control">
+                                    <?php
+                                    error_reporting(0);
+                                    $data = mysql_query("SELECT * from tb_akun");
+                                    $j = mysql_num_rows($data);
+                                    if ($j == 0) {
+                                        echo "<option>--Pilih Akun--</option>";
+                                    } else {
+                                        while ($v = mysql_fetch_array($data)) {
+                                            echo "
                                         <option value='$v[id]'>$v[nama_akun]</option>
                                     ";
+                                        }
                                     }
-                                }
 
-                            ?>
-                        </select>
-                        
-                        Nominal : Rp.
-                        <input type="text" name="nominal" value="<?php echo $data_akun['nominal']; ?>" class="form-control">
-                        
-                        Keterangan :
-                        <input name="ket" value="<?php echo $data_akun['ket']; ?>" class="form-control">
-                        
-                        Tipe :
-                        <select name="tipe"  class="form-control">
-                            <option value="D" <?php if($data_akun['tipe'] == 'D'){ echo 'selected'; } ?>>Debet</option>
-                            <option value="K" <?php if($data_akun['tipe'] == 'K'){ echo 'selected'; } ?>>Kredit</option>
-                        </select><br>
-                        
-                        <input type="submit" name="simpan" value="Simpan Transaksi" class="btn btn-primary">
-                    </form>
-                    </ol>
+                                    ?>
+                                </select>
 
-    </div>
-    
-    <div class="col-md-8">
-    <ol class="breadcrumb">
-    <div>
+                                Nominal : Rp.
+                                <input type="text" name="nominal" value="<?php echo $data_akun['nominal']; ?>" class="form-control">
 
-<!-- Modal Popup untuk Edit--> 
+                                Keterangan :
+                                <input name="ket" value="<?php echo $data_akun['ket']; ?>" class="form-control">
+
+                                Tipe :
+                                <select name="tipe" class="form-control">
+                                    <option value="D" <?php if ($data_akun['tipe'] == 'D') {
+                                                            echo 'selected';
+                                                        } ?>>Debet</option>
+                                    <option value="K" <?php if ($data_akun['tipe'] == 'K') {
+                                                            echo 'selected';
+                                                        } ?>>Kredit</option>
+                                </select><br>
+
+                                <input type="submit" name="simpan" value="Simpan Transaksi" class="btn btn-primary">
+                            </form>
+                        </ol>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <ol class="breadcrumb">
+                            <div>
+
+                                <!-- Modal Popup untuk Edit-->
 
 
-                <!-- /.row -->
+                                <!-- /.row -->
 
-               <!-- <div class="row">
+                                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -219,7 +223,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-             <!--   <div class="row">
+                                <!--   <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -309,9 +313,9 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                                <!-- /.row -->
 
-                <!--<div class="row">
+                                <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -325,7 +329,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                 </div>
                 <!-- /.row -->
 
-                <!--<div class="row">
+                                <!--<div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -385,7 +389,7 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                             </div>
                         </div>
                     </div>-->
-                   <!-- <div class="col-lg-4">
+                                <!-- <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -460,27 +464,27 @@ if ((isset($_GET['doLogout'])) &&($_GET['doLogout']=="true")){
                         </div>
                     </div>
                 </div>-->
-                <!-- /.row -->
+                                <!-- /.row -->
 
-            </div>
-            <!-- /.container-fluid -->
+                            </div>
+                            <!-- /.container-fluid -->
 
-        </div>
-        <!-- /#page-wrapper -->
+                    </div>
+                    <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+                </div>
+                <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+                <!-- jQuery -->
+                <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+                <!-- Bootstrap Core JavaScript -->
+                <script src="js/bootstrap.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
+                <!-- Morris Charts JavaScript -->
+                <script src="js/plugins/morris/raphael.min.js"></script>
+                <script src="js/plugins/morris/morris.min.js"></script>
+                <script src="js/plugins/morris/morris-data.js"></script>
 
 </body>
 

@@ -8,4 +8,3 @@ class config{
 		return mysqli_connect("localhost","root","","sia");
 	}
 }
-?>
