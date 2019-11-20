@@ -148,23 +148,14 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                                     <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
-                                Akun :
+                                Pilih Akun :
                                 <select name="id_akun" class="form-control">
                                     <?php
-                                    error_reporting(0);
-                                    $data = mysqil_query($config->koneksi(), "SELECT * from tb_akun");
-                                    $j = mysqli_num_rows($data);
-                                    if ($j == 0) {
-                                        echo "<option>--Pilih Akun--</option>";
-                                    } else {
-                                        while ($v = mysqli_fetch_array($data)) {
-                                            echo "
-                                        <option value='$v[id]'>$v[nama_akun]</option>
-                                    ";
-                                        }
-                                    }
-
-                                    ?>
+                                    $data = mysqli_query($config->koneksi(), "SELECT * FROM tb_akun");
+                                    while ($row = mysqli_fetch_array($data)) {
+                                        ?><option value='<?php echo $row['id'] ?>'><?php echo $row['nama_akun'] ?></option><?php
+                                                                                                                            }
+                                                                                                                            ?>
                                 </select>
 
                                 Nominal : Rp.

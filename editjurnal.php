@@ -142,8 +142,6 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                             <div></div>
                             <br />
                             <?php
-                            include('confiq/koneksi.php');
-
                             $id = $_GET['id'];
                             $show = mysqli_query($config->koneksi(), "SELECT * FROM tb_jurnal WHERE id='$id'");
 
@@ -163,23 +161,14 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                                     <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi" value="<?php echo $data_akun['tgl']; ?>">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
-                                Akun :
-                                <select name="id_akun" value="<?php echo $data_akun['id_akun']; ?>" class="form-control">
+                                Pilih Akun :
+                                <select name="id_akun" class="form-control">
                                     <?php
-                                    error_reporting(0);
-                                    $data = mysql_query("SELECT * from tb_akun");
-                                    $j = mysql_num_rows($data);
-                                    if ($j == 0) {
-                                        echo "<option>--Pilih Akun--</option>";
-                                    } else {
-                                        while ($v = mysql_fetch_array($data)) {
-                                            echo "
-                                        <option value='$v[id]'>$v[nama_akun]</option>
-                                    ";
-                                        }
-                                    }
-
-                                    ?>
+                                    $data = mysqli_query($config->koneksi(), "SELECT * FROM tb_akun");
+                                    while ($row = mysqli_fetch_array($data)) {
+                                        ?><option value='<?php echo $row['id'] ?>'><?php echo $row['nama_akun'] ?></option><?php
+                                                                                                                            }
+                                                                                                                            ?>
                                 </select>
 
                                 Nominal : Rp.
