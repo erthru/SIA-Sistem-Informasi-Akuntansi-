@@ -115,6 +115,12 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                         <h3 class="page-header">
                             SELAMAT DATANG
                         </h3>
+                        <p>
+                            <strong>
+                                Nama: Moh. Suprianto Djamalu<br />
+                                NIM: 531414020
+                            </strong>
+                        </p>
                         <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
