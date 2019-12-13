@@ -157,9 +157,8 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                             <form method="POST" action="prosesjurnal.php">
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                                 Tanggal transaksi : <br>
-                                <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi" value="<?php echo $data_akun['tgl']; ?>">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd/mm/yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="10" type="date" name="tgl" id="tgl_transaksi" value="<?php echo $data_akun['tgl']; ?>">
                                 </div>
                                 Pilih Akun :
                                 <select name="id_akun" class="form-control">

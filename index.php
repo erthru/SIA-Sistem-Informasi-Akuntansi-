@@ -120,6 +120,12 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                                 Nama: Moh. Suprianto Djamalu<br />
                                 NIM: 531414020
                             </strong>
+                            <br />
+                            <br />
+                            <strong>
+                                Nama: Moh. Fikran Pontoh<br />
+                                NIM: 531414068
+                            </strong>
                         </p>
                         <!-- <div class="row">
                     <div class="col-lg-12">

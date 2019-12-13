@@ -153,11 +153,11 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                             }
                             ?>
 
-                            <b>TAMBAH AKUN</b><br>
+                            <b>EDIT AKUN</b><br>
                             <form method="POST" action="prosesakun.php">
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                                 Nomor/Kode Akun :
-                                <input type="text" name="kode" value="<?php echo $data_akun['kode']; ?>" required="required" class="form-control" />
+                                <input type="text" name="kode" value="<?php echo $data_akun['kode']; ?>" required="required" class="form-control" disabled/>
                                 Nama Akun :<br>
                                 <input type="text" name="nama_akun" value="<?php echo $data_akun['nama_akun']; ?>" required="required" class="form-control">
                                 Posisi Awal Saldo :<br>

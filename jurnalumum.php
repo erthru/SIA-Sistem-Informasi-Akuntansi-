@@ -144,9 +144,8 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                             <b>INPUT TRANSAKSI : </b><br>
                             <form method="POST" action="pro_input_transaksi.php">
                                 Tanggal transaksi : <br>
-                                <div class="input-group date form_date col-md-12" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="10" type="text" name="tgl" id="tgl_transaksi">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div class="input-group date form_date col-md-12" data-date="" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="10" type="date" name="tgl" id="tgl_transaksi">
                                 </div>
                                 Pilih Akun :
                                 <select name="id_akun" class="form-control">
@@ -205,13 +204,13 @@ if ((isset($_GET['doLogout'])) && ($_GET['doLogout'] == "true")) {
                         echo "
                                 <tr>
                                     <td align='center'>$no</td>
-                                    <td>$data[tgl]</td>
+                                    <td>".date_format(date_create($data['tgl']), 'd/m/y')."</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>";
 
-                        $transaksi = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.tgl='$data[tgl]' order by tb_jurnal.id ASC");
+                        $transaksi = mysqli_query($config->koneksi(), "SELECT *, tb_jurnal.id 'idjurnal' from tb_jurnal, tb_akun where tb_jurnal.id_akun=tb_akun.id and tb_jurnal.tgl='$data[tgl]' order by tb_jurnal.tgl ASC");
                         $total_debet    =   0;
                         $total_kredit   =   0;
                         while ($v = mysqli_fetch_array($transaksi)) {
