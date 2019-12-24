@@ -1,7 +1,7 @@
 <?php
 class config{
 	public function siteurl(){
-		return "http://localhost/Anows/sia";
+		return "http://localhost/AnoWS/sia";
 	}
 	
 	public function koneksi(){
